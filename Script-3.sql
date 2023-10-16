@@ -54,8 +54,6 @@ CREATE TABLE IF NOT exists Tracks_Compilations (
     FOREIGN KEY (compilation_id) REFERENCES Compilations(compilation_id)
 );
 
-ALTER TABLE tracks
-ALTER COLUMN duration TYPE VARCHAR(255);
 
 INSERT INTO Genres (genre_name) VALUES 
 ('Rock'),
@@ -79,15 +77,16 @@ INSERT INTO Albums (album_name, release_year) VALUES
 
 
 INSERT INTO tracks  (track_name, duration, album_id) VALUES 
-('Photograph', '04:19', 1),
-('Rockstar', '04:15', 1),
-('My Hero', '04:21', 1),
-('Formation', '03:26', 2),
-('Sorry', '03:53', 2),
-('Izzo (H.O.V.A.)', '04:00', 3),
-('Girls, Girls, Girls', '04:35', 3),
-('Breathe', '05:35', 4),
-('Firestarter', '04:40', 4);
+('Photograph', '00:04:19', 1),
+('Rockstar', '00:04:15', 1),
+('My Hero', '00:04:21', 1),
+('Formation', '00:03:26', 2),
+('Sorry', '00:03:53', 2),
+('Izzo (H.O.V.A.)', '00:04:00', 3),
+('Girls, Girls, Girls', '00:04:35', 3),
+('Breathe', '00:05:35', 4),
+('Firestarter', '00:04:40', 4);
+
 
 
 INSERT INTO Compilations (compilation_name, release_year) VALUES 
@@ -101,15 +100,15 @@ INSERT INTO Genres_Artists (genre_id, artist_id) VALUES
 (1, 1), -- Nickleback - Rock
 (2, 2), -- Beyonce - Pop
 (3, 3), -- Jay Z - Hip-Hop
-(4, 4) -- The Prodigy - Electronic
-ON CONFLICT (genre_id, artist_id) DO NOTHING;
+(4, 4); -- The Prodigy - Electronic
+
 
 INSERT INTO Artists_Albums (artist_id, album_id) VALUES 
 (1, 1), -- Nickleback - All the Right Reasons
 (2, 2), -- Beyonce - Lemonade
 (3, 3), -- Jay Z - The Blueprint
-(4, 4) -- The Prodigy - The Fat of the Land
-ON CONFLICT (artist_id, album_id) DO NOTHING;
+(4, 4); -- The Prodigy - The Fat of the Land
+
 
 INSERT INTO Tracks_Compilations (track_id, compilation_id) VALUES 
 (1, 1), -- Photograph - Best of 2000s
@@ -119,8 +118,8 @@ INSERT INTO Tracks_Compilations (track_id, compilation_id) VALUES
 (5, 3), -- Izzo (H.O.V.A.) - Hip-Hop Legends
 (6, 3), -- Girls, Girls, Girls - Hip-Hop Legends
 (7, 4), -- Breathe - Electro Icons
-(8, 4) -- Firestarter - Electro Icons
-ON CONFLICT (track_id, compilation_id) DO NOTHING;
+(8, 4); -- Firestarter - Electro Icons
+
 
 SELECT track_name, duration 
 FROM tracks 
@@ -141,7 +140,9 @@ WHERE artist_name NOT LIKE '% %';
 
 SELECT track_name 
 FROM tracks 
-where track_name ILIKE '%my%';
+where track_name ILIKE '% my%' 
+or track_name ilike 'my %' 
+or track_name ilike '%my ';
 
 SELECT g.genre_name, COUNT(a.artist_id) AS artist_count
 FROM Genres g
